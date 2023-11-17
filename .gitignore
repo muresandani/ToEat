@@ -1,0 +1,40 @@
+# .gitignore file for .NET projects
+
+# Ignore compiled files
+bin/
+obj/
+
+# Ignore all files that have the .user extension
+*.user
+
+# Ignore all .suo files (user options for the solution)
+*.suo
+
+# Ignore all .cache files
+*.cache
+
+# Ignore packages directory
+**/packages/*
+
+# Ignore the .vs directory created by Visual Studio
+.vs/
+
+# Ignore .DS_Store files (created by macOS)
+.DS_Store
+
+# Ignore publish directory
+**/Publish/*
+
+# Ignore all .dll files
+*.dll
+
+# Ignore all .exe files
+*.exe
+
+# Ignore all .pdb files (program debug database)
+*.pdb
+
+# Ignore all .config and .json files in the root directory
+# (uncomment the following lines if necessary)
+#/*.config
+#/*.json

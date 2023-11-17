@@ -1,0 +1,79 @@
+using Azure.AI.OpenAI;
+using ToEat.Data;
+using ToEat.Models;
+using ToEat.Functions.Parameters;
+using System.Text.Json;
+
+namespace ToEat.Functions;
+
+public class AddInventoryItemFunction: IFunction
+{
+    ToEatContext _context;
+    public AddInventoryItemFunction(ToEatContext context)
+    {
+        _context = context;
+    }
+    public void Execute(IFunctionArgument data)
+    {
+        var arguments = data.GetArguments();
+        foreach (var argument in arguments.items)
+        {
+            var inventoryItem = new InventoryItem
+            {
+                Name = argument.name,
+                Quantity = argument.quantity,
+                MeasurementUnit = argument.unit,
+                Inventory = _context.Inventories.Find(1)
+            };
+            _context.Add(inventoryItem);
+
+        }
+    }
+
+    public FunctionDefinition GetFunctionDefinition()
+    {
+        return new FunctionDefinition()
+        {
+            Name = "AddInventoryItems",
+            Description = "Add multiple items to a user's inventory",
+            Parameters = BinaryData.FromObjectAsJson(
+            new
+            {
+                Type = "object",
+                Properties = new
+                {
+                    items = new
+                    {
+                        Type = "array",
+                        Items = new
+                        {
+                            Type = "object",
+                            Properties = new
+                            {
+                                name = new
+                                {
+                                    Type = "string",
+                                    Description = "The name of the product",
+                                },
+                                quantity = new
+                                {
+                                    Type = "string",
+                                    Description = "The quantity of the given product",
+                                },
+                                unit = new
+                                {
+                                    Type = "string",
+                                    Description = "The unit of measurement for the given product",
+                                    Enum = new[] { "gm", "ml", "pc" },
+                                }
+                            },
+                            Required = new[] { "name", "quantity", "unit" },
+                        }
+                    }
+                },
+                Required = new[] { "items" },
+            },
+            new System.Text.Json.JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }),
+        };
+    }
+}
