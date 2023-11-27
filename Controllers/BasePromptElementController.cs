@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ToEat.Data;
 using ToEat.Models;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ToEat.Controllers
 {
@@ -27,16 +28,9 @@ namespace ToEat.Controllers
 
         // GET: api/BasePromptElement
         [HttpGet]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<IEnumerable<BasePromptElement>>> GetBasePromptElement()
         {
-            var routes = _actionDescriptorCollectionProvider.ActionDescriptors.Items.Select(ad =>
-                new
-                {
-                    Action = ad.RouteValues["Action"],
-                    Controller = ad.RouteValues["Controller"],
-                    ad.AttributeRouteInfo?.Template
-                }).ToList();
-            return Ok(routes);
           if (_context.BasePromptElements == null)
           {
               return NotFound();

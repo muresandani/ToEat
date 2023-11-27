@@ -1,10 +1,11 @@
 using Azure.AI.OpenAI;
 using ToEat.Functions.Parameters;
+using ToEat.Functions.Responses;
 
 namespace ToEat.Functions;
 
 public interface IFunction
 {
-    void Execute(IFunctionArgument parameter);
+    IFunctionResponse Execute(IFunctionArgument parameter);
     FunctionDefinition GetFunctionDefinition();
 }

@@ -3,6 +3,7 @@ using ToEat.Data;
 using ToEat.Models;
 using ToEat.Functions.Parameters;
 using System.Text.Json;
+using ToEat.Functions.Responses;
 
 namespace ToEat.Functions;
 
@@ -13,7 +14,7 @@ public class AddInventoryItemFunction: IFunction
     {
         _context = context;
     }
-    public void Execute(IFunctionArgument data)
+    public IFunctionResponse Execute(IFunctionArgument data)
     {
         var arguments = data.GetArguments();
         foreach (var argument in arguments.items)
@@ -28,6 +29,9 @@ public class AddInventoryItemFunction: IFunction
             _context.Add(inventoryItem);
 
         }
+        return new FunctionResponse(){
+                _Message = "Added items to inventory"
+            };
     }
 
     public FunctionDefinition GetFunctionDefinition()
